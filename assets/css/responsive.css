@@ -1,0 +1,56 @@
+/* Responsive adjustments for CityConnect Portal */
+
+@media(max-width: 991.98px) {
+    .navbar-collapse {
+        background: var(--primary-dark);
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+}
+
+@media(max-width: 768px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-section {
+        padding: 60px 0;
+    }
+
+    .hover-card {
+        margin-bottom: 20px;
+    }
+
+    .admin-sidebar {
+        min-height: auto;
+        margin-bottom: 20px;
+        box-shadow: none;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    
+    .admin-sidebar .nav-link {
+        display: inline-block;
+        border-radius: 20px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media(max-width: 576px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-section p {
+        font-size: 0.9rem;
+    }
+    
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
