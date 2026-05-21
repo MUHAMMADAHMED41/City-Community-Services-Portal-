@@ -9,8 +9,8 @@ if (!isset($_SESSION['admin'])) {
 
 // Handle Add
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_announcement'])) {
-    $title = filter_var(trim($_POST['title']), FILTER_SANITIZE_STRING);
-    $body = filter_var(trim($_POST['body']), FILTER_SANITIZE_STRING);
+    $title = htmlspecialchars(trim($_POST['title']), ENT_QUOTES, 'UTF-8');
+    $body = htmlspecialchars(trim($_POST['body']), ENT_QUOTES, 'UTF-8');
     
     if(!empty($title) && !empty($body)) {
         $stmt = $conn->prepare("INSERT INTO announcements(title, body) VALUES (?, ?)");

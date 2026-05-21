@@ -3,12 +3,12 @@ require_once 'includes/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Sanitize and validate inputs
-    $name = filter_var(trim($_POST["name"]), FILTER_SANITIZE_STRING);
-    $contact = filter_var(trim($_POST["contact"]), FILTER_SANITIZE_STRING);
-    $category = filter_var(trim($_POST["category"]), FILTER_SANITIZE_STRING);
-    $area = filter_var(trim($_POST["area"]), FILTER_SANITIZE_STRING);
-    $description = filter_var(trim($_POST["description"]), FILTER_SANITIZE_STRING);
+    // Collect inputs and prepare them for storage
+    $name = htmlspecialchars(trim($_POST["name"]), ENT_QUOTES, 'UTF-8');
+    $contact = trim($_POST["contact"]);
+    $category = htmlspecialchars(trim($_POST["category"]), ENT_QUOTES, 'UTF-8');
+    $area = htmlspecialchars(trim($_POST["area"]), ENT_QUOTES, 'UTF-8');
+    $description = htmlspecialchars(trim($_POST["description"]), ENT_QUOTES, 'UTF-8');
     
     // Basic backend validation
     if (empty($name) || empty($contact) || empty($category) || empty($area) || empty($description)) {

@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin'])) {
 // Handle status update
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
     $id = intval($_POST['id']);
-    $status = filter_var($_POST['status'], FILTER_SANITIZE_STRING);
+    $status = htmlspecialchars(trim($_POST['status']), ENT_QUOTES, 'UTF-8');
     
     $stmt = $conn->prepare("UPDATE complaints SET status=? WHERE id=?");
     if($stmt->execute([$status, $id])) {
