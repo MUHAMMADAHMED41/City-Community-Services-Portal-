@@ -30,7 +30,11 @@ A professional full-stack municipal management system built to modernize city se
 - **Default Password**: `admin123`
 
 ## Screenshots
-*(Add screenshots of the Home Page, Admin Dashboard, and Complaint Form here)*
+![alt text](image.png)
 
 ## Author
-Ahmed
+Muhammad Ahmed
+linkedin:
+https://www.linkedin.com/in/muhammadahmed41/
+github:
+https://github.com/muhammadahmed41

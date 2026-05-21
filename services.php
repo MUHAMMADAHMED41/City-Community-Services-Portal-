@@ -6,8 +6,9 @@ include 'includes/navbar.php';
 // Fetch all services
 $services = [];
 $query = "SELECT * FROM services ORDER BY name ASC";
-if($result = mysqli_query($conn, $query)) {
-    while($row = mysqli_fetch_assoc($result)) {
+$stmt = $conn->query($query);
+if ($stmt) {
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $services[] = $row;
     }
 }

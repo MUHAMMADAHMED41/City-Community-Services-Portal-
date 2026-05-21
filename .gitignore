@@ -8,3 +8,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Local PHP/SQLite config and data
+city_portal.db
+*.db
+php.ini

@@ -13,13 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
     $status = filter_var($_POST['status'], FILTER_SANITIZE_STRING);
     
     $stmt = $conn->prepare("UPDATE complaints SET status=? WHERE id=?");
-    $stmt->bind_param("si", $status, $id);
-    if($stmt->execute()) {
+    if($stmt->execute([$status, $id])) {
         header("Location: complaints.php?success=1");
     } else {
         header("Location: complaints.php?error=1");
     }
-    $stmt->close();
     exit();
 }
 
@@ -27,11 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $stmt = $conn->prepare("DELETE FROM complaints WHERE id=?");
-    $stmt->bind_param("i", $id);
-    if($stmt->execute()) {
+    if($stmt->execute([$id])) {
         header("Location: complaints.php?deleted=1");
     }
-    $stmt->close();
     exit();
 }
 
@@ -101,9 +97,10 @@ if (isset($_GET['delete'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $res = mysqli_query($conn, "SELECT * FROM complaints ORDER BY date DESC");
-                                    if(mysqli_num_rows($res) > 0) {
-                                        while($r = mysqli_fetch_assoc($res)) {
+                                    $res = $conn->query("SELECT * FROM complaints ORDER BY date DESC");
+                                    $rows = $res->fetchAll(PDO::FETCH_ASSOC);
+                                    if(count($rows) > 0) {
+                                        foreach($rows as $r) {
                                             $badgeClass = 'bg-warning text-dark';
                                             if($r['status'] == 'In Progress') $badgeClass = 'bg-primary';
                                             if($r['status'] == 'Resolved') $badgeClass = 'bg-success';

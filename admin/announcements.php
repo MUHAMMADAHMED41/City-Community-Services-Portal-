@@ -14,13 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_announcement'])) {
     
     if(!empty($title) && !empty($body)) {
         $stmt = $conn->prepare("INSERT INTO announcements(title, body) VALUES (?, ?)");
-        $stmt->bind_param("ss", $title, $body);
-        if($stmt->execute()) {
+        if($stmt->execute([$title, $body])) {
             header("Location: announcements.php?success=add");
         } else {
             header("Location: announcements.php?error=add");
         }
-        $stmt->close();
     } else {
         header("Location: announcements.php?error=empty");
     }
@@ -31,11 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_announcement'])) {
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $stmt = $conn->prepare("DELETE FROM announcements WHERE id=?");
-    $stmt->bind_param("i", $id);
-    if($stmt->execute()) {
+    if($stmt->execute([$id])) {
         header("Location: announcements.php?success=delete");
     }
-    $stmt->close();
     exit();
 }
 
@@ -107,9 +103,10 @@ if (isset($_GET['delete'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $res = mysqli_query($conn, "SELECT * FROM announcements ORDER BY date DESC");
-                                    if(mysqli_num_rows($res) > 0) {
-                                        while($r = mysqli_fetch_assoc($res)) {
+                                    $res = $conn->query("SELECT * FROM announcements ORDER BY date DESC");
+                                    $rows = $res->fetchAll(PDO::FETCH_ASSOC);
+                                    if(count($rows) > 0) {
+                                        foreach($rows as $r) {
                                             echo "<tr>";
                                             echo "<td class='ps-4'>#".$r['id']."</td>";
                                             echo "<td><strong class='text-dark'>".htmlspecialchars($r['title'])."</strong></td>";

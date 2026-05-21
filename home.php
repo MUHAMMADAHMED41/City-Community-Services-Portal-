@@ -6,8 +6,9 @@ include 'includes/navbar.php';
 // Fetch latest announcements
 $announcements = [];
 $query = "SELECT * FROM announcements ORDER BY date DESC LIMIT 3";
-if($result = mysqli_query($conn, $query)) {
-    while($row = mysqli_fetch_assoc($result)) {
+$stmt = $conn->query($query);
+if ($stmt) {
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $announcements[] = $row;
     }
 }

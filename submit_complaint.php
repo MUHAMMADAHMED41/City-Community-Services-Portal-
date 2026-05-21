@@ -25,24 +25,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare("INSERT INTO complaints(name, contact, category, description, area) VALUES (?, ?, ?, ?, ?)");
     
     if ($stmt) {
-        $stmt->bind_param("sssss", $name, $contact, $category, $description, $area);
-        
-        if ($stmt->execute()) {
+        if ($stmt->execute([$name, $contact, $category, $description, $area])) {
             // Success
-            $stmt->close();
-            mysqli_close($conn);
             header("Location: home.php?success=complaint");
             exit();
         } else {
             // Execution failed
-            $stmt->close();
-            mysqli_close($conn);
             header("Location: complaint.php?error=db");
             exit();
         }
     } else {
         // Preparation failed
-        mysqli_close($conn);
         header("Location: complaint.php?error=db");
         exit();
     }

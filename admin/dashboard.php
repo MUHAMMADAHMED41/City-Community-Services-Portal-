@@ -17,20 +17,20 @@ $stats = [
 ];
 
 // Total Complaints
-$res = mysqli_query($conn, "SELECT COUNT(*) as count FROM complaints");
-if($row = mysqli_fetch_assoc($res)) $stats['total_complaints'] = $row['count'];
+$res = $conn->query("SELECT COUNT(*) as count FROM complaints");
+if($row = $res->fetch(PDO::FETCH_ASSOC)) $stats['total_complaints'] = $row['count'];
 
 // Pending Complaints
-$res = mysqli_query($conn, "SELECT COUNT(*) as count FROM complaints WHERE status = 'Pending'");
-if($row = mysqli_fetch_assoc($res)) $stats['pending_complaints'] = $row['count'];
+$res = $conn->query("SELECT COUNT(*) as count FROM complaints WHERE status = 'Pending'");
+if($row = $res->fetch(PDO::FETCH_ASSOC)) $stats['pending_complaints'] = $row['count'];
 
 // Resolved Complaints
-$res = mysqli_query($conn, "SELECT COUNT(*) as count FROM complaints WHERE status = 'Resolved'");
-if($row = mysqli_fetch_assoc($res)) $stats['resolved_complaints'] = $row['count'];
+$res = $conn->query("SELECT COUNT(*) as count FROM complaints WHERE status = 'Resolved'");
+if($row = $res->fetch(PDO::FETCH_ASSOC)) $stats['resolved_complaints'] = $row['count'];
 
 // Total Announcements
-$res = mysqli_query($conn, "SELECT COUNT(*) as count FROM announcements");
-if($row = mysqli_fetch_assoc($res)) $stats['total_announcements'] = $row['count'];
+$res = $conn->query("SELECT COUNT(*) as count FROM announcements");
+if($row = $res->fetch(PDO::FETCH_ASSOC)) $stats['total_announcements'] = $row['count'];
 
 ?>
 <!DOCTYPE html>
@@ -192,9 +192,10 @@ if($row = mysqli_fetch_assoc($res)) $stats['total_announcements'] = $row['count'
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $recent = mysqli_query($conn, "SELECT * FROM complaints WHERE status='Pending' ORDER BY date DESC LIMIT 5");
-                                            if(mysqli_num_rows($recent) > 0) {
-                                                while($r = mysqli_fetch_assoc($recent)) {
+                                            $recent = $conn->query("SELECT * FROM complaints WHERE status='Pending' ORDER BY date DESC LIMIT 5");
+                                            $rows = $recent->fetchAll(PDO::FETCH_ASSOC);
+                                            if(count($rows) > 0) {
+                                                foreach($rows as $r) {
                                                     echo "<tr>";
                                                     echo "<td class='ps-4'>#".$r['id']."</td>";
                                                     echo "<td><span class='badge bg-secondary bg-opacity-10 text-dark border'>".$r['category']."</span></td>";

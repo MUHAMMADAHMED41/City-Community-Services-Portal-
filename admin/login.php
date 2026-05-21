@@ -18,11 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Please enter both username and password.";
     } else {
         $stmt = $conn->prepare("SELECT id, username, password FROM admin WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->execute([$username]);
         
-        if ($row = $result->fetch_assoc()) {
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             if (password_verify($password, $row['password'])) {
                 $_SESSION['admin'] = $row['username'];
                 header("Location: dashboard.php?success=login");
@@ -33,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $error = "Invalid username or password.";
         }
-        $stmt->close();
     }
 }
 ?>
